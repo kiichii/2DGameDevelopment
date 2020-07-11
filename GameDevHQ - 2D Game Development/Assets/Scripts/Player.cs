@@ -7,6 +7,7 @@ namespace GameDevelopment2D
     {
 		[SerializeField] private float _speed;
 		[SerializeField] private float _speedPowerupOffset;
+		
 		[SerializeField] private float _fireRate;
 		[SerializeField] private int _lives;
 		[SerializeField] private GameObject _laserPrefab;
@@ -23,7 +24,9 @@ namespace GameDevelopment2D
 		private bool _isSpeedActive = false;
 		private bool _isShieldActive = false;
 		private bool _isAlive = true;
+		private bool _inShiftSpeed = false;
 		private float _fireDelay;
+		private float _speedShiftOffset = 1f;
 
 		private AudioSource _audioSource;
 		private SpawnManager _spawnManager;
@@ -62,6 +65,8 @@ namespace GameDevelopment2D
 
 			if (Input.GetKey(KeyCode.Space))
 				SpawnLaser();
+
+			ToggleShiftSpeed();
 		}
 
 		private void OnTriggerEnter2D(Collider2D other)
@@ -118,10 +123,10 @@ namespace GameDevelopment2D
 			if (_isAlive)
 			{
 				if (!_isSpeedActive)
-					transform.Translate(position * _speed * Time.deltaTime);
+					transform.Translate(position * _speed * _speedShiftOffset * Time.deltaTime);
 
 				else
-					transform.Translate(position * (_speed + _speedPowerupOffset) * Time.deltaTime);
+					transform.Translate(position * (_speed + _speedPowerupOffset) * _speedShiftOffset * Time.deltaTime);
 			}
 			
 			transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -5f, 0), 0);
@@ -191,6 +196,15 @@ namespace GameDevelopment2D
 		{
 			_isShieldActive = active;
 			_shield.gameObject.SetActive(active);
+		}
+
+		private void ToggleShiftSpeed()
+		{
+			if (Input.GetKey(KeyCode.LeftShift))
+				_speedShiftOffset = 1.5f;
+
+			else if(Input.GetKeyUp(KeyCode.LeftShift))
+				_speedShiftOffset = 1;
 		}
 
 		private IEnumerator PlayerDeathSequence()
