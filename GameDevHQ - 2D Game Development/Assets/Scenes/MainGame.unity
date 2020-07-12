@@ -440,7 +440,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57e9f0d541f66bf4ab78fe911c708a61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnInterval: 5
+  _spawnEnemyInterval: 3.5
+  _spawnPowerupMinInterval: 7
+  _spawnPowerupMaxInterval: 10
   _enemyPrefab: {fileID: 6844404885312645378, guid: 5b53c970a60c78145a42dc934ecc85d2,
     type: 3}
   _enemyContainer: {fileID: 572789505}

@@ -5,7 +5,9 @@ namespace GameDevelopment2D
 {
     public class SpawnManager : MonoBehaviour
     {
-		[SerializeField] private float _spawnInterval = 5f;
+		[SerializeField] private float _spawnEnemyInterval = 3.5f;
+		[SerializeField] private float _spawnPowerupMinInterval = 7f;
+		[SerializeField] private float _spawnPowerupMaxInterval = 11f;
 		[SerializeField] private GameObject _enemyPrefab;
 		[SerializeField] private Transform _enemyContainer;
 		[SerializeField] private Powerup[] _powerups;
@@ -28,7 +30,7 @@ namespace GameDevelopment2D
 			{
 				GameObject enemy = Instantiate(_enemyPrefab, new Vector3(Random.Range(-8.1f, 8.1f), 6f, 0), Quaternion.identity);
 				enemy.transform.parent = _enemyContainer;
-				yield return new WaitForSeconds(_spawnInterval);
+				yield return new WaitForSeconds(_spawnEnemyInterval);
 			}
 		}
 
@@ -38,7 +40,7 @@ namespace GameDevelopment2D
 
 			while (playerAlive)
 			{
-				yield return new WaitForSeconds(Random.Range(7, 11));
+				yield return new WaitForSeconds(Random.Range(_spawnPowerupMinInterval, _spawnPowerupMaxInterval));
 				Instantiate(_powerups[Random.Range(0, _powerups.Length)].gameObject, new Vector3(Random.Range(-8.35f, 8.35f), 6f, 0), Quaternion.identity);
 			}
 		}

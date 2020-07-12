@@ -27,6 +27,8 @@ namespace GameDevelopment2D
 		private bool _inShiftSpeed = false;
 		private float _fireDelay;
 		private float _speedShiftOffset = 1f;
+		private int _shieldStrength;
+		private SpriteRenderer _shieldSprite;
 
 		private AudioSource _audioSource;
 		private SpawnManager _spawnManager;
@@ -40,11 +42,13 @@ namespace GameDevelopment2D
 		{
 			_audioSource = GetComponent<AudioSource>();
 			_collider = GetComponent<BoxCollider2D>();
+			_shieldSprite = _shield.GetComponent<SpriteRenderer>();
 		}
 
 		private void Start()
 		{
 			_lives = 3;
+			_shieldStrength = 3;
 			transform.position = new Vector3(0, -3f, 0);
 			_spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
 
@@ -96,6 +100,7 @@ namespace GameDevelopment2D
 
 						case Powerups.Shield:
 							ToggleShieldPowerup(true);
+							_shieldStrength = 3;
 							break;
 
 						default:
@@ -157,7 +162,7 @@ namespace GameDevelopment2D
 		{
 			if (_isShieldActive)
 			{
-				ToggleShieldPowerup(false);
+				ToggleShieldStrength(damage);
 				return;
 			}
 				
@@ -192,10 +197,28 @@ namespace GameDevelopment2D
 			_isSpeedActive = false;
 		}
 
+		private void ToggleShieldStrength(int damage)
+		{
+			_shieldStrength -= damage;
+			if (_shieldStrength == 2)
+				//255, 174, 174
+				_shieldSprite.color = new Color(1, 0.68f, 0.68f);
+			
+			else if (_shieldStrength == 1)
+				//255, 83, 83
+				_shieldSprite.color = new Color(1, 0.33f, 0.33f);
+
+			else if(_shieldStrength == 0)
+				ToggleShieldPowerup(false);
+		}
+
 		private void ToggleShieldPowerup(bool active)
 		{
 			_isShieldActive = active;
 			_shield.gameObject.SetActive(active);
+
+			_shieldSprite.color = new Color(1, 1, 1);
+			
 		}
 
 		private void ToggleShiftSpeed()
