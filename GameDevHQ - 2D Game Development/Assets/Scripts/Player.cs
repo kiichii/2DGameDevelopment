@@ -17,6 +17,7 @@ namespace GameDevelopment2D
 		[SerializeField] private GameObject _RightEngine;
 		[SerializeField] private GameObject _playerVFX;
 		[SerializeField] private GameObject _explosion;
+		
 
 		[SerializeField] private AudioClip[] _audioClips;
 
@@ -28,12 +29,13 @@ namespace GameDevelopment2D
 		private float _fireDelay;
 		private float _speedShiftOffset = 1f;
 		private int _shieldStrength;
-		private SpriteRenderer _shieldSprite;
-
+		private int _ammoCount = 15;
+		
 		private AudioSource _audioSource;
 		private SpawnManager _spawnManager;
 		private Coroutine _tripleShotRoutine;
 		private Collider2D _collider;
+		private SpriteRenderer _shieldSprite;
 		private Vector3 _laserOffset = new Vector3(0, 1f, 0);
 
 
@@ -49,6 +51,7 @@ namespace GameDevelopment2D
 		{
 			_lives = 3;
 			_shieldStrength = 3;
+			_ammoCount = 15;
 			transform.position = new Vector3(0, -3f, 0);
 			_spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
 
@@ -144,8 +147,12 @@ namespace GameDevelopment2D
 
 		private void SpawnLaser()
 		{
-			if(Time.time > _fireDelay)
+			if(Time.time > _fireDelay && _ammoCount != 0)
 			{
+				_ammoCount--;
+
+				CheckAmmoCount();
+
 				_fireDelay = Time.time + _fireRate;
 
 				if (!_isTripleShotActive)
@@ -243,6 +250,14 @@ namespace GameDevelopment2D
 			_audioSource.Play();
 			yield return new WaitForSeconds(3.5f);
 			Destroy(gameObject);
+		}
+
+		private void CheckAmmoCount()
+		{
+			if (_ammoCount != 0)
+				UIManager.Instance.ShowReloadUI(false);
+			else
+				UIManager.Instance.ShowReloadUI(true);
 		}
 	}
 }

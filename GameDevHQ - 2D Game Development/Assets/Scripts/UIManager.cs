@@ -13,6 +13,7 @@ namespace GameDevelopment2D
 		[SerializeField] private Text _gameOverText;
 		[SerializeField] private Text _restartText;
 		[SerializeField] private Sprite[] _livesSprites;
+		[SerializeField] private Text _reloadUI;
 
 		private int _scoreAmount = 0;
 
@@ -39,6 +40,11 @@ namespace GameDevelopment2D
 			}
 		}
 
+		internal void ShowReloadUI(bool active)
+		{
+			_reloadUI.gameObject.SetActive(active);
+		}
+
 		private void GameOverSequence()
 		{
 			GameManager.Instance.GameOver();
@@ -61,5 +67,7 @@ namespace GameDevelopment2D
 				yield return new WaitForSeconds(0.75f);
 			}
 		}
+
+		
 	}
 }
