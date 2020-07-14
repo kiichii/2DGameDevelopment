@@ -106,6 +106,10 @@ namespace GameDevelopment2D
 							_shieldStrength = 3;
 							break;
 
+						case Powerups.Ammo:
+							ReloadAmmo();
+							break;
+
 						default:
 							Debug.LogError("NO POWER OF THAT TYPE");
 							break;
@@ -258,6 +262,12 @@ namespace GameDevelopment2D
 				UIManager.Instance.ShowReloadUI(false);
 			else
 				UIManager.Instance.ShowReloadUI(true);
+		}
+
+		private void ReloadAmmo()
+		{
+			_ammoCount = 15;
+			CheckAmmoCount();
 		}
 	}
 }
