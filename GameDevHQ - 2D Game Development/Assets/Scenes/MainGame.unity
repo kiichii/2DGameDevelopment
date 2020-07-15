@@ -538,8 +538,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnEnemyInterval: 3.5
-  _spawnPowerupMinInterval: 7
-  _spawnPowerupMaxInterval: 10
+  _spawnPowerupMinInterval: 1
+  _spawnPowerupMaxInterval: 2
   _enemyPrefab: {fileID: 6844404885312645378, guid: 5b53c970a60c78145a42dc934ecc85d2,
     type: 3}
   _enemyContainer: {fileID: 572789505}
@@ -548,6 +548,7 @@ MonoBehaviour:
   - {fileID: 5664424116739167171, guid: 8ceabb8179d3cbc46a9dfb99a12bcb85, type: 3}
   - {fileID: 6757832061356907607, guid: f623ea625b394fe4e88ee969021719e0, type: 3}
   - {fileID: 1708803359251624792, guid: 9ab752ee9535f924a8af8eca729e46ed, type: 3}
+  - {fileID: 8273796655041573391, guid: c0ece857656a20e47bee0218c1286952, type: 3}
 --- !u!4 &526879660
 Transform:
   m_ObjectHideFlags: 0

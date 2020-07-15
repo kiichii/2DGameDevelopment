@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 namespace GameDevelopment2D
 {
@@ -110,6 +111,10 @@ namespace GameDevelopment2D
 							ReloadAmmo();
 							break;
 
+						case Powerups.Health:
+							TakeHealth();
+							break;
+
 						default:
 							Debug.LogError("NO POWER OF THAT TYPE");
 							break;
@@ -180,12 +185,8 @@ namespace GameDevelopment2D
 			_lives -= damage;
 			UIManager.Instance.UpdateLives(_lives);
 
-			if (_lives == 2)
-				_LeftEngine.SetActive(true);
-
-			else if (_lives == 1)
-				_RightEngine.SetActive(true);
-
+			UpdatePlayerEffects();
+			
 			if (_lives < 1)
 			{
 				StopAllCoroutines();
@@ -193,6 +194,29 @@ namespace GameDevelopment2D
 				_collider.enabled = false;
 			}
 		}
+
+		private void UpdatePlayerEffects()
+		{
+			if(_lives == 3)
+			{
+				_LeftEngine.SetActive(false);
+				_RightEngine.SetActive(false);
+			}
+
+			else if (_lives == 2)
+			{
+				_LeftEngine.SetActive(true);
+				_RightEngine.SetActive(false);
+			}
+
+			else if (_lives == 1)
+			{
+				_RightEngine.SetActive(true);
+			}
+				
+		}
+
+		#region Powerups
 
 		private IEnumerator ToggleTripleShotPowerup()
 		{
@@ -241,6 +265,14 @@ namespace GameDevelopment2D
 				_speedShiftOffset = 1;
 		}
 
+		private void ReloadAmmo()
+		{
+			_ammoCount = 15;
+			CheckAmmoCount();
+		}
+
+		#endregion
+
 		private IEnumerator PlayerDeathSequence()
 		{
 			_isAlive = false;
@@ -264,10 +296,16 @@ namespace GameDevelopment2D
 				UIManager.Instance.ShowReloadUI(true);
 		}
 
-		private void ReloadAmmo()
+		private void TakeHealth()
 		{
-			_ammoCount = 15;
-			CheckAmmoCount();
+			_lives++;
+
+			if (_lives > 3)
+				_lives = 3;
+
+			UIManager.Instance.UpdateLives(_lives);
+			UpdatePlayerEffects();
 		}
+
 	}
 }
