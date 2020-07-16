@@ -2,9 +2,14 @@
 
 namespace GameDevelopment2D
 {
+	//Create new powerup
+	//Create new projectile
+	//Spawn rarely
+
+
 	public enum Powerups
 	{
-		TripleShot, Shield, Speed, Ammo, Health
+		TripleShot, Shield, Speed, Ammo, Health, ScatterShot
 	}
 
 	public class Powerup : MonoBehaviour

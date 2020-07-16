@@ -18,6 +18,7 @@ namespace GameDevelopment2D
 		[SerializeField] private GameObject _RightEngine;
 		[SerializeField] private GameObject _playerVFX;
 		[SerializeField] private GameObject _explosion;
+		[SerializeField] private GameObject _scatterShotPrefab;
 		
 
 		[SerializeField] private AudioClip[] _audioClips;
@@ -27,6 +28,7 @@ namespace GameDevelopment2D
 		private bool _isShieldActive = false;
 		private bool _isAlive = true;
 		private bool _inShiftSpeed = false;
+		private bool _isScatterShotActive = false;
 		private float _fireDelay;
 		private float _speedShiftOffset = 1f;
 		private int _shieldStrength;
@@ -35,6 +37,7 @@ namespace GameDevelopment2D
 		private AudioSource _audioSource;
 		private SpawnManager _spawnManager;
 		private Coroutine _tripleShotRoutine;
+		private Coroutine _scatterShotRoutine;
 		private Collider2D _collider;
 		private SpriteRenderer _shieldSprite;
 		private Vector3 _laserOffset = new Vector3(0, 1f, 0);
@@ -92,9 +95,8 @@ namespace GameDevelopment2D
 					{
 						case Powerups.TripleShot:
 							if (_tripleShotRoutine != null)
-							{
 								StopCoroutine(_tripleShotRoutine);
-							}
+
 							_tripleShotRoutine = StartCoroutine(ToggleTripleShotPowerup());
 							break;
 
@@ -113,6 +115,13 @@ namespace GameDevelopment2D
 
 						case Powerups.Health:
 							TakeHealth();
+							break;
+
+						case Powerups.ScatterShot:
+							if (_scatterShotRoutine != null)
+								StopCoroutine(ToogleScatterShotPowerup());
+
+							_scatterShotRoutine = StartCoroutine(ToogleScatterShotPowerup());
 							break;
 
 						default:
@@ -164,11 +173,14 @@ namespace GameDevelopment2D
 
 				_fireDelay = Time.time + _fireRate;
 
-				if (!_isTripleShotActive)
+				if(!_isTripleShotActive && !_isScatterShotActive)
 					Instantiate(_laserPrefab, transform.position + _laserOffset, Quaternion.identity);
 
-				else
+				else if (_isTripleShotActive)
 					Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+
+				else if (_isScatterShotActive)
+					Instantiate(_scatterShotPrefab, transform.position, Quaternion.identity);
 
 				_audioSource.Play();
 			}
@@ -221,6 +233,7 @@ namespace GameDevelopment2D
 		private IEnumerator ToggleTripleShotPowerup()
 		{
 			_isTripleShotActive = true;
+			_isScatterShotActive = false;
 			yield return new WaitForSeconds(5);
 			_isTripleShotActive = false;
 		}
@@ -230,6 +243,14 @@ namespace GameDevelopment2D
 			_isSpeedActive = true;
 			yield return new WaitForSeconds(5);
 			_isSpeedActive = false;
+		}
+
+		private IEnumerator ToogleScatterShotPowerup()
+		{
+			_isTripleShotActive = false;
+			_isScatterShotActive = true;
+			yield return new WaitForSeconds(5);
+			_isScatterShotActive = false;
 		}
 
 		private void ToggleShieldStrength(int damage)

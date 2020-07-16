@@ -12,7 +12,7 @@ namespace GameDevelopment2D
 		{
 			transform.Translate(Vector3.up * _speed * Time.deltaTime);
 
-			if (transform.position.y > 6)
+			if (transform.position.y > 12)
 			{
 				if(transform.parent != null)
 				{
