@@ -31,6 +31,8 @@ namespace GameDevelopment2D
 		private bool _isScatterShotActive = false;
 		private float _fireDelay;
 		private float _speedShiftOffset = 1f;
+		private float _maxThrusterCharge = 20f;
+		private float _currentThrusterCharge;
 		private int _shieldStrength;
 		private int _ammoCount = 15;
 		
@@ -74,10 +76,12 @@ namespace GameDevelopment2D
 		{
 			CalculateMovement();
 
+			ToggleShiftSpeed();
+
+			UpdateThrusterCharge();
+
 			if (Input.GetKey(KeyCode.Space))
 				SpawnLaser();
-
-			ToggleShiftSpeed();
 		}
 
 		private void OnTriggerEnter2D(Collider2D other)
@@ -279,9 +283,17 @@ namespace GameDevelopment2D
 
 		private void ToggleShiftSpeed()
 		{
-			if (Input.GetKey(KeyCode.LeftShift))
+			if (Input.GetKey(KeyCode.LeftShift) && _currentThrusterCharge > 0)
+			{
 				_speedShiftOffset = 1.5f;
+				_currentThrusterCharge -= 0.05f;
 
+				if (_currentThrusterCharge < 0)
+					_currentThrusterCharge = 0;
+
+				UIManager.Instance.UpdateThruster(_currentThrusterCharge);
+			}
+				
 			else if(Input.GetKeyUp(KeyCode.LeftShift))
 				_speedShiftOffset = 1;
 		}
@@ -328,5 +340,13 @@ namespace GameDevelopment2D
 			UpdatePlayerEffects();
 		}
 
+		private void UpdateThrusterCharge()
+		{
+			_currentThrusterCharge += Time.deltaTime;
+			if (_currentThrusterCharge > _maxThrusterCharge)
+				_currentThrusterCharge = _maxThrusterCharge;
+
+			UIManager.Instance.UpdateThruster(_currentThrusterCharge);
+		}	
 	}
 }

@@ -9,6 +9,7 @@ namespace GameDevelopment2D
 		[SerializeField] private GameObject _mainMenu;
 		[SerializeField] private GameObject _mainGame;
 		[SerializeField] private Image _livesDisplay;
+		[SerializeField] private Image _thrusterCharge;
 		[SerializeField] private Text _scoreText;
 		[SerializeField] private Text _gameOverText;
 		[SerializeField] private Text _restartText;
@@ -44,6 +45,16 @@ namespace GameDevelopment2D
 		{
 			_reloadUI.gameObject.SetActive(active);
 		}
+
+		internal void UpdateThruster(float amount)
+		{
+			_thrusterCharge.fillAmount = amount / 20;
+		}
+
+		//internal void IncreaseThruster(float amount)
+		//{
+		//	_thrusterCharge.fillAmount
+		//}
 
 		private void GameOverSequence()
 		{
