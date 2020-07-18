@@ -35,7 +35,8 @@ namespace GameDevelopment2D
 		private float _currentThrusterCharge;
 		private int _shieldStrength;
 		private int _ammoCount = 15;
-		
+
+		private Animator _cameraAnim;
 		private AudioSource _audioSource;
 		private SpawnManager _spawnManager;
 		private Coroutine _tripleShotRoutine;
@@ -51,6 +52,7 @@ namespace GameDevelopment2D
 			_audioSource = GetComponent<AudioSource>();
 			_collider = GetComponent<BoxCollider2D>();
 			_shieldSprite = _shield.GetComponent<SpriteRenderer>();
+			_cameraAnim = Camera.main.GetComponent<Animator>();
 		}
 
 		private void Start()
@@ -134,11 +136,6 @@ namespace GameDevelopment2D
 					}
 					Destroy(powerup.gameObject);
 				}
-			}
-			else if (other.tag == "Enemy")
-			{
-				//Remove, produce sound
-
 			}
 		}
 
@@ -348,5 +345,10 @@ namespace GameDevelopment2D
 
 			UIManager.Instance.UpdateThruster(_currentThrusterCharge);
 		}	
+
+		internal void ShakeCamera()
+		{
+			_cameraAnim.SetTrigger("Shake");
+		}
 	}
 }

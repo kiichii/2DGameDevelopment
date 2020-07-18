@@ -33,6 +33,7 @@ namespace GameDevelopment2D
 					AudioSource.PlayClipAtPoint(_laserAudio[1], transform.position);
 
 					player.TakeDamage(1);
+					player.ShakeCamera();
 					Destroy(this.gameObject);
 				}
 			}

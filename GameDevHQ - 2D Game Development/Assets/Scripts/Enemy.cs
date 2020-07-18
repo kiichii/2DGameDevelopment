@@ -47,6 +47,7 @@ namespace GameDevelopment2D
 				if(player != null)
 				{
 					player.TakeDamage(1);
+					player.ShakeCamera();
 					_Animator.SetBool("isEnemyDead", true);
 					_IsDead = true;
 					_collider2D.enabled = false;
