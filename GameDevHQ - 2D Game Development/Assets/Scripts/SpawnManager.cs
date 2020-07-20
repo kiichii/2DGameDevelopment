@@ -12,6 +12,7 @@ namespace GameDevelopment2D
 		[SerializeField] private Transform _enemyContainer;
 		[SerializeField] private Powerup[] _powerups;
 
+		
 
 
 		private bool playerAlive = true;
@@ -32,6 +33,12 @@ namespace GameDevelopment2D
 			{
 				GameObject enemy = Instantiate(_enemyPrefab, new Vector3(Random.Range(-8.1f, 8.1f), 6f, 0), Quaternion.identity);
 				enemy.transform.parent = _enemyContainer;
+
+				if (enemy.transform.position.x < 0)
+					enemy.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 45f));
+				else if (enemy.transform.position.x > 0)
+					enemy.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, -45f));
+
 				yield return new WaitForSeconds(_spawnEnemyInterval);
 			}
 		}

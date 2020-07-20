@@ -31,6 +31,7 @@ namespace GameDevelopment2D
 
 			if(transform.position.y < -6.4f)
 				transform.position = new Vector3(Random.Range(-8f, 8f), 6, 0);
+			
 
 			if(Time.time > _fireDelay && !_IsDead)
 			{
@@ -70,7 +71,7 @@ namespace GameDevelopment2D
 
 		private void SpawnLaser()
 		{
-			Instantiate(_laser, transform.position, Quaternion.identity);
+			Instantiate(_laser, transform.position, transform.rotation);
 			_fireRate = Random.Range(3f, 6.5f);
 			_fireDelay = Time.time + _fireRate;
 		}
