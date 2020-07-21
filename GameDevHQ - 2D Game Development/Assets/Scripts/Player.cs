@@ -184,6 +184,8 @@ namespace GameDevelopment2D
 					Instantiate(_scatterShotPrefab, transform.position, Quaternion.identity);
 
 				_audioSource.Play();
+
+				
 			}
 		}
 
@@ -278,23 +280,6 @@ namespace GameDevelopment2D
 			
 		}
 
-		private void ToggleShiftSpeed()
-		{
-			if (Input.GetKey(KeyCode.LeftShift) && _currentThrusterCharge > 0)
-			{
-				_speedShiftOffset = 1.5f;
-				_currentThrusterCharge -= 0.05f;
-
-				if (_currentThrusterCharge < 0)
-					_currentThrusterCharge = 0;
-
-				UIManager.Instance.UpdateThruster(_currentThrusterCharge);
-			}
-				
-			else if(Input.GetKeyUp(KeyCode.LeftShift))
-				_speedShiftOffset = 1;
-		}
-
 		private void ReloadAmmo()
 		{
 			_ammoCount = 15;
@@ -324,6 +309,8 @@ namespace GameDevelopment2D
 				UIManager.Instance.ShowReloadUI(false);
 			else
 				UIManager.Instance.ShowReloadUI(true);
+
+			UIManager.Instance.UpdateAmmoCount(_ammoCount);
 		}
 
 		private void TakeHealth()
@@ -337,11 +324,45 @@ namespace GameDevelopment2D
 			UpdatePlayerEffects();
 		}
 
+		private void ToggleShiftSpeed()
+		{
+			if (_inShiftSpeed)
+			{
+				if((Input.GetKey(KeyCode.LeftShift) && _currentThrusterCharge > 0))
+				{
+					_speedShiftOffset = 1.5f;
+					_currentThrusterCharge -= 0.1f;
+
+					if (_currentThrusterCharge < 0)
+					{
+						_currentThrusterCharge = 0;
+						_inShiftSpeed = false;
+						_speedShiftOffset = 1;
+						
+					}
+				}
+			}
+
+			if (Input.GetKeyUp(KeyCode.LeftShift))
+			{
+				_speedShiftOffset = 1;
+				_inShiftSpeed = false;
+			}
+			Debug.Log(_speedShiftOffset);
+
+			UIManager.Instance.UpdateThruster(_currentThrusterCharge);
+		}
+
 		private void UpdateThrusterCharge()
 		{
 			_currentThrusterCharge += Time.deltaTime;
+
 			if (_currentThrusterCharge > _maxThrusterCharge)
 				_currentThrusterCharge = _maxThrusterCharge;
+
+			if (_currentThrusterCharge > 5)
+				_inShiftSpeed = true;
+				
 
 			UIManager.Instance.UpdateThruster(_currentThrusterCharge);
 		}	

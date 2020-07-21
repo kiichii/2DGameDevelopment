@@ -15,6 +15,7 @@ namespace GameDevelopment2D
 		[SerializeField] private Text _restartText;
 		[SerializeField] private Sprite[] _livesSprites;
 		[SerializeField] private Text _reloadUI;
+		[SerializeField] private Text _ammoCount;
 
 		private int _scoreAmount = 0;
 
@@ -49,6 +50,11 @@ namespace GameDevelopment2D
 		internal void UpdateThruster(float amount)
 		{
 			_thrusterCharge.fillAmount = amount / 20;
+		}
+
+		internal void UpdateAmmoCount(int amount)
+		{
+			_ammoCount.text = amount.ToString() + "/15";
 		}
 
 		//internal void IncreaseThruster(float amount)
