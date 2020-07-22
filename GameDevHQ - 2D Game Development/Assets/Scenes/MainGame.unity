@@ -542,6 +542,8 @@ MonoBehaviour:
   _spawnEnemyInterval: 3.5
   _spawnPowerupMinInterval: 7
   _spawnPowerupMaxInterval: 10
+  _increaseEnemyPerWave: 2
+  _startingEnemyPerWave: 5
   _enemyPrefab: {fileID: 6844404885312645378, guid: 5b53c970a60c78145a42dc934ecc85d2,
     type: 3}
   _enemyContainer: {fileID: 572789505}

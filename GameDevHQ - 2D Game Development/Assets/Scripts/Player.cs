@@ -338,7 +338,6 @@ namespace GameDevelopment2D
 						_currentThrusterCharge = 0;
 						_inShiftSpeed = false;
 						_speedShiftOffset = 1;
-						
 					}
 				}
 			}
@@ -348,7 +347,6 @@ namespace GameDevelopment2D
 				_speedShiftOffset = 1;
 				_inShiftSpeed = false;
 			}
-			Debug.Log(_speedShiftOffset);
 
 			UIManager.Instance.UpdateThruster(_currentThrusterCharge);
 		}
@@ -363,7 +361,6 @@ namespace GameDevelopment2D
 			if (_currentThrusterCharge > 5)
 				_inShiftSpeed = true;
 				
-
 			UIManager.Instance.UpdateThruster(_currentThrusterCharge);
 		}	
 
