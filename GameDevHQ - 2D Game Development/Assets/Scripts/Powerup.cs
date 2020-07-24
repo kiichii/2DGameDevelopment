@@ -9,7 +9,7 @@ namespace GameDevelopment2D
 
 	public enum Powerups
 	{
-		TripleShot, Shield, Speed, Ammo, Health, ScatterShot
+		TripleShot, Shield, Speed, Ammo, Health, ScatterShot, ReduceAmmo
 	}
 
 	public class Powerup : MonoBehaviour

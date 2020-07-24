@@ -130,6 +130,10 @@ namespace GameDevelopment2D
 							_scatterShotRoutine = StartCoroutine(ToogleScatterShotPowerup());
 							break;
 
+						case Powerups.ReduceAmmo:
+							ReduceAmmo(5);
+							break;
+
 						default:
 							Debug.LogError("NO POWER OF THAT TYPE");
 							break;
@@ -168,13 +172,11 @@ namespace GameDevelopment2D
 		{
 			if(Time.time > _fireDelay && _ammoCount != 0)
 			{
-				_ammoCount--;
-
-				CheckAmmoCount();
+				ReduceAmmo(1);
 
 				_fireDelay = Time.time + _fireRate;
 
-				if(!_isTripleShotActive && !_isScatterShotActive)
+				if (!_isTripleShotActive && !_isScatterShotActive)
 					Instantiate(_laserPrefab, transform.position + _laserOffset, Quaternion.identity);
 
 				else if (_isTripleShotActive)
@@ -185,7 +187,7 @@ namespace GameDevelopment2D
 
 				_audioSource.Play();
 
-				
+
 			}
 		}
 
@@ -228,7 +230,6 @@ namespace GameDevelopment2D
 			{
 				_RightEngine.SetActive(true);
 			}
-				
 		}
 
 		#region Powerups
@@ -303,12 +304,23 @@ namespace GameDevelopment2D
 			Destroy(gameObject);
 		}
 
+		private void ReduceAmmo(int amount)
+		{
+			_ammoCount -= amount;
+			CheckAmmoCount();
+		}
+
 		private void CheckAmmoCount()
 		{
-			if (_ammoCount != 0)
-				UIManager.Instance.ShowReloadUI(false);
-			else
+			if (_ammoCount <= 0)
+			{
+				_ammoCount = 0;
 				UIManager.Instance.ShowReloadUI(true);
+				
+			}
+				
+			else
+				UIManager.Instance.ShowReloadUI(false);
 
 			UIManager.Instance.UpdateAmmoCount(_ammoCount);
 		}
